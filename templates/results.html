@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Results</title>
+</head>
+<body>
+	<h1>Results</h1>
+	{% if extracted_text %}
+		{% for text in extracted_text %}
+			<p>{{ text }}</p>
+		{% endfor %}
+	{% else %}
+		<p>No text was extracted from the uploaded images.</p>
+	{% endif %}
+</body>
+</html>
