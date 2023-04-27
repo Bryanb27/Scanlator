@@ -5,6 +5,7 @@ import pytesseract
 from PIL import Image
 from flask import Flask, request, send_file, render_template
 from werkzeug.utils import secure_filename
+import textCorrection
 
 app = Flask(__name__, template_folder='templates')
 
@@ -56,6 +57,9 @@ def upload():
     output_filename = 'output.txt'
     with open(output_filename, 'w') as output_file:
         output_file.write('\n'.join(extracted_text))
+    
+    #Chama a correção de texto
+    #textCorrection.correctSpelling()
 
     # Retorna o arquivo de texto para o cliente
     return render_template('results.html', extracted_text=extracted_text)
