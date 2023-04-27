@@ -13,6 +13,9 @@ app = Flask(__name__, template_folder='templates')
 pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'  # Altere o caminho para o executável do Tesseract OCR no seu sistema
 tessdata_dir_config = '--tessdata-dir "C:/Program Files/Tesseract-OCR/tessdata"'  # Altere o caminho para o diretório tessdata do Tesseract OCR no seu sistema
 
+# Carrega o OCR treinado
+#ocr_engine = pytesseract.pytesseract.Tesseract(trained_data_file='eng.traineddata')
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -47,19 +50,22 @@ def upload():
             # add the image to the list
             image_list.append(image)
 
-    # Executa o Tesseract OCR nas imagens
+    # Executa o OCR treinado nas imagens
     extracted_text = []
+
+    # Processamento da extração de texto de forma sequencial
     for image in image_list:
+        #text = ocr_engine.image_to_string(image, lang='por')
         text = pytesseract.image_to_string(image, config=tessdata_dir_config)
         extracted_text.append(text)
-
+    
     # Cria um arquivo de texto com o texto extraído
     output_filename = 'output.txt'
     with open(output_filename, 'w') as output_file:
         output_file.write('\n'.join(extracted_text))
     
     #Chama a correção de texto
-    #textCorrection.correctSpelling()
+    #correction = textCorrection.correctSpelling(extracted_text)
 
     # Retorna o arquivo de texto para o cliente
     return render_template('results.html', extracted_text=extracted_text)
