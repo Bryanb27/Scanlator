@@ -1,3 +1,4 @@
+#Dependencias
 import os
 import io
 import zipfile
@@ -29,8 +30,8 @@ def upload():
     file = request.files['file']
     
     # Verifica se o arquivo tem uma extensão válida
-    if not file.filename.lower().endswith('.zip'):
-        return 'Arquivo inválido. Por favor, envie um arquivo ZIP', 400
+    if not file.filename.lower().endswith(('.zip', '.cbz')):
+        return 'Arquivo inválido. Por favor, envie um arquivo ZIP ou CBZ', 400
 
     # Salva o arquivo ZIP no sistema de arquivos
     zip_filename = secure_filename(file.filename)
